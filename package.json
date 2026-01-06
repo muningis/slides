@@ -5,8 +5,10 @@
   "private": true,
   "scripts": {
     "dev": "bun --hot src/client/main.tsx",
+    "dev:server": "bun --hot src/server/main.ts",
     "build": "bunx tailwindcss -i src/client/styles/globals.css -o dist/styles.css --minify && bun build src/client/main.tsx --outdir dist --minify && bun scripts/build-html.ts",
     "preview": "bun --bun serve dist",
+    "start": "bun src/server/main.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests",
     "lint:fix": "eslint src tests --fix",
