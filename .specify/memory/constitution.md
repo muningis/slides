@@ -2,27 +2,26 @@
 ================================================================================
 SYNC IMPACT REPORT
 ================================================================================
-Version change: 0.0.0 → 1.0.0
-Bump rationale: Initial constitution creation (MAJOR - first governance document)
+Version change: 1.0.0 → 1.1.0
+Bump rationale: MINOR - Added Tailwind CSS to approved technology stack
 
-Modified principles: N/A (initial creation)
+Modified principles:
+- VII. Approved Technology Stack: Added Tailwind CSS for styling
 
-Added sections:
-- Core Principles (7 principles defined)
-- Technology Constraints (tech stack requirements)
-- Development Workflow (quality gates and process)
-- Governance (amendment procedures)
+Added sections: None
 
-Removed sections: N/A (initial creation)
+Removed sections: None
+
+Modified sections:
+- Technology Constraints: Added Tailwind CSS to Required Tools table
+- Forbidden Patterns: Updated "Inline styles" rule to clarify Tailwind utility
+  classes are the approved alternative (removed CSS modules/styled components)
 
 Templates requiring updates:
-- .specify/templates/plan-template.md: ✅ No changes required (Constitution Check
-  section already present and will be populated dynamically)
-- .specify/templates/spec-template.md: ✅ No changes required (requirements and
-  testing sections align with principles)
-- .specify/templates/tasks-template.md: ✅ No changes required (phase structure
-  supports test-first and parallel execution)
-- .specify/templates/checklist-template.md: ✅ No changes required (generic template)
+- .specify/templates/plan-template.md: ✅ No changes required
+- .specify/templates/spec-template.md: ✅ No changes required
+- .specify/templates/tasks-template.md: ✅ No changes required
+- .specify/templates/checklist-template.md: ✅ No changes required
 
 Follow-up TODOs: None
 ================================================================================
@@ -119,6 +118,7 @@ The following technologies are mandated and approved:
 - **Runtime**: Bun (server-side routing and static file serving)
 - **Language**: TypeScript (strict mode)
 - **Frontend**: React (client-side rendering)
+- **Styling**: Tailwind CSS (utility-first CSS framework)
 - **Animation**: Framer Motion (all motion and transitions)
 - **Code Highlighting**: CodeHike (syntax highlighting in slides)
 - **Validation**: Valibot (schema validation and type inference)
@@ -142,6 +142,7 @@ compatibility, and prevents dependency bloat.
 | Runtime | Bun | Server, bundler, package manager |
 | Language | TypeScript | Type-safe development |
 | UI Framework | React | Component-based UI |
+| Styling | Tailwind CSS | Utility-first CSS framework |
 | Animation | Framer Motion | Declarative animations |
 | Code Display | CodeHike | Syntax highlighting |
 | Validation | Valibot | Runtime type validation |
@@ -149,7 +150,7 @@ compatibility, and prevents dependency bloat.
 ### Forbidden Patterns
 
 - `any` type without justification comment
-- Inline styles (use CSS modules or styled components)
+- Inline styles or CSS-in-JS (use Tailwind CSS utility classes)
 - Direct DOM manipulation (use React refs when necessary)
 - Synchronous file I/O in request handlers
 - Console.log in production code (use structured logging)
@@ -209,4 +210,4 @@ This constitution supersedes all other development practices and guidelines.
 - Code review enforces principles not automatable
 - Constitution violations without justification block merge
 
-**Version**: 1.0.0 | **Ratified**: 2026-01-06 | **Last Amended**: 2026-01-06
+**Version**: 1.1.0 | **Ratified**: 2026-01-06 | **Last Amended**: 2026-01-06
