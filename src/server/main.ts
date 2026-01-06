@@ -3,8 +3,8 @@
  * Handles routing and static file serving
  */
 
-import { logRequest, logServerStart } from "./lib/logger.ts";
-import { serveStaticFile } from "./lib/static.ts";
+import { logServerStart } from "./lib/logger.ts";
+import { createRouter } from "./lib/router.ts";
 import { handleIndex } from "./routes/index.ts";
 import { handleSlides } from "./routes/slides.ts";
 
@@ -26,42 +26,15 @@ function getPort(): number {
 
 const port = getPort();
 
+const router = createRouter()
+  .get("/", handleIndex)
+  .get("/slides/:slideSlug", handleSlides)
+  .static("/")
+  .notFound(() => new Response("Not Found", { status: 404 }));
+
 Bun.serve({
   port,
-  async fetch(request: Request): Promise<Response> {
-    const startTime = Date.now();
-    const url = new URL(request.url);
-    const path = url.pathname;
-
-    let response: Response;
-
-    // Route: Home page
-    if (path === "/") {
-      response = handleIndex();
-      logRequest(request, response.status, startTime);
-      return response;
-    }
-
-    // Route: Slides with slug parameter
-    if (path.startsWith("/slides/")) {
-      const slug = path.slice("/slides/".length);
-      response = handleSlides(slug);
-      logRequest(request, response.status, startTime);
-      return response;
-    }
-
-    // Fallback: Static file serving from dist/
-    const staticResponse = await serveStaticFile(path);
-    if (staticResponse) {
-      logRequest(request, staticResponse.status, startTime);
-      return staticResponse;
-    }
-
-    // 404 for everything else
-    response = new Response("Not Found", { status: 404 });
-    logRequest(request, response.status, startTime);
-    return response;
-  },
+  fetch: router.build(),
 });
 
 logServerStart(port);
