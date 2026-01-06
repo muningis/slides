@@ -3,12 +3,34 @@
  * Writes to stdout for production log aggregation
  */
 
-interface RequestLog {
-  timestamp: string;
+interface LogEntry<T> {
+  timestamp: number;
+  namespace: string;
+  payload: T;
+}
+
+interface HttpRequestPayload {
   method: string;
   path: string;
   status: number;
   duration: number;
+}
+
+interface ServerPayload {
+  event: string;
+  port: number;
+}
+
+/**
+ * Write a structured log entry to stdout
+ */
+function writeLog<T>(namespace: string, payload: T): void {
+  const entry: LogEntry<T> = {
+    timestamp: Date.now(),
+    namespace,
+    payload,
+  };
+  process.stdout.write(JSON.stringify(entry) + "\n");
 }
 
 /**
@@ -22,26 +44,24 @@ export function logRequest(
   const duration = Date.now() - startTime;
   const url = new URL(request.url);
 
-  const log: RequestLog = {
-    timestamp: new Date().toISOString(),
+  const payload: HttpRequestPayload = {
     method: request.method,
     path: url.pathname,
     status,
     duration,
   };
 
-  process.stdout.write(JSON.stringify(log) + "\n");
+  writeLog("http-request", payload);
 }
 
 /**
  * Log server startup
  */
 export function logServerStart(port: number): void {
-  const log = {
-    timestamp: new Date().toISOString(),
-    event: "server_start",
+  const payload: ServerPayload = {
+    event: "start",
     port,
   };
 
-  process.stdout.write(JSON.stringify(log) + "\n");
+  writeLog("server", payload);
 }
