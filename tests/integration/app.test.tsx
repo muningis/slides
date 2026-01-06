@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { render, screen } from "@testing-library/react";
-import App from "../../src/components/App.tsx";
+import App from "../../src/client/components/App.tsx";
 
 describe("App", () => {
   it("renders the welcome message", () => {
