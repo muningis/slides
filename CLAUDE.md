@@ -175,3 +175,10 @@ tests/
 │   └── shared/
 └── integration/       # Integration tests
 ```
+
+## Active Technologies
+- TypeScript (strict mode) + Bun runtime (native `Bun.serve()` API - no external HTTP framework needed) (004-server-handler)
+- File system (static files from `dist/` directory) (004-server-handler)
+
+## Recent Changes
+- 004-server-handler: Added TypeScript (strict mode) + Bun runtime (native `Bun.serve()` API - no external HTTP framework needed)
