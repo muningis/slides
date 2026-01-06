@@ -1,0 +1,9 @@
+[serve]
+port = 3000
+
+[test]
+root = "./tests"
+preload = ["./tests/setup.ts"]
+
+[install]
+auto = true
