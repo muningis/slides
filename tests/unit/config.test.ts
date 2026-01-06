@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import * as v from "valibot";
-import { AppConfigSchema, getConfig } from "../../src/lib/config.ts";
+import { AppConfigSchema, getConfig } from "../../src/shared/lib/config.ts";
 
 describe("AppConfigSchema", () => {
   it("validates correct configuration", () => {
