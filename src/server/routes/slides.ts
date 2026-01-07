@@ -1,8 +1,32 @@
 /**
  * Slides route handler (/slides/:slideSlug)
- * Returns a placeholder response for presentation pages
- * Will be extended to render HTML with injected JSON config
+ * Returns HTML page that loads the presentation client
  */
+
+/**
+ * Generate HTML page for a presentation
+ * @param slug - The presentation slug
+ * @returns HTML string with embedded presentation data source
+ */
+function generatePresentationHtml(slug: string): string {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${slug} - Slides</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script>
+      window.__PRESENTATION_SLUG__ = ${JSON.stringify(slug)};
+      window.__PRESENTATION_URL__ = ${JSON.stringify(`/presentations/${slug}.json`)};
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>`;
+}
 
 /**
  * Handle requests to the slides route
@@ -16,9 +40,10 @@ export function handleSlides(params: Record<string, string>): Response {
     return new Response("Not Found", { status: 404 });
   }
 
-  // Placeholder response - will be replaced with actual slide rendering
-  return new Response(`Slide: ${slideSlug} - Coming Soon`, {
+  const html = generatePresentationHtml(slideSlug);
+
+  return new Response(html, {
     status: 200,
-    headers: { "Content-Type": "text/plain" },
+    headers: { "Content-Type": "text/html; charset=utf-8" },
   });
 }

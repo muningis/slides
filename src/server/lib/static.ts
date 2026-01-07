@@ -84,7 +84,13 @@ export function getMimeType(filename: string): string {
 }
 
 /**
- * Serve a static file from the dist directory
+ * Directories to search for static files, in order of priority
+ */
+const STATIC_DIRS = ["./dist", "./public"];
+
+/**
+ * Serve a static file from dist or public directories
+ * Checks dist first (built assets), then public (static assets)
  * Returns null if file doesn't exist or path is invalid
  */
 export async function serveStaticFile(
@@ -98,14 +104,17 @@ export async function serveStaticFile(
   // Remove leading slash if present
   const cleanPath = path.startsWith("/") ? path.slice(1) : path;
 
-  const file = Bun.file(`./dist/${cleanPath}`);
+  // Check each directory in order
+  for (const dir of STATIC_DIRS) {
+    const file = Bun.file(`${dir}/${cleanPath}`);
 
-  if (await file.exists()) {
-    return new Response(file, {
-      headers: {
-        "Content-Type": getMimeType(cleanPath),
-      },
-    });
+    if (await file.exists()) {
+      return new Response(file, {
+        headers: {
+          "Content-Type": getMimeType(cleanPath),
+        },
+      });
+    }
   }
 
   return null;
