@@ -1,0 +1,114 @@
+{
+  "slides": [
+    {
+      "type": "title",
+      "title": "Theme Test Presentation"
+    },
+    {
+      "type": "title-subtitle",
+      "title": "Military-Tech Aesthetic",
+      "subtitle": "Dark olive backgrounds with lime accents"
+    },
+    {
+      "type": "text",
+      "title": "Design Philosophy",
+      "text": "This theme uses a tactical, commanding aesthetic. Deep olive backgrounds create focus while lime accents provide energy and precision. The color palette maintains WCAG AA contrast ratios for accessibility."
+    },
+    {
+      "type": "bullets",
+      "title": "Key Features",
+      "items": [
+        "Dark olive backgrounds (#1a1f16, #252b1f)",
+        "Lime/neon green accents (#c8f542)",
+        "Sand-toned text hierarchy",
+        "Responsive typography with CSS clamp()",
+        "High contrast mode toggle"
+      ]
+    },
+    {
+      "type": "info",
+      "title": "Theme Statistics",
+      "items": [
+        {
+          "label": "Color Tokens",
+          "value": "18+",
+          "description": "Olive, lime, and sand palettes"
+        },
+        {
+          "label": "Contrast Ratio",
+          "value": "4.5:1",
+          "description": "WCAG AA compliant"
+        },
+        {
+          "label": "Slide Types",
+          "value": "9",
+          "description": "Including new layouts"
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Theme Configuration",
+      "language": "typescript",
+      "blocks": [
+        "const colors = {\n  olive: { 900: '#1a1f16' },\n  lime: { 500: '#c8f542' },\n};",
+        "const colors = {\n  olive: { 900: '#1a1f16', 800: '#252b1f' },\n  lime: { 500: '#c8f542', 600: '#a8d435' },\n  sand: { 100: '#f5f5f0' },\n};"
+      ]
+    },
+    {
+      "type": "timeline",
+      "title": "Implementation Timeline",
+      "events": [
+        {
+          "title": "Setup Phase",
+          "date": "Phase 1",
+          "description": "Tailwind config, types, schemas"
+        },
+        {
+          "title": "Foundation",
+          "date": "Phase 2",
+          "description": "ThemeProvider and useTheme hook"
+        },
+        {
+          "title": "Slide Theming",
+          "date": "Phase 3",
+          "description": "Apply colors to all slides"
+        },
+        {
+          "title": "New Layouts",
+          "date": "Phase 5",
+          "description": "InfoSlide, ClosingSlide, ContactSlide"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "title": "Get In Touch",
+      "name": "Slides Project",
+      "role": "Modern Presentation App",
+      "contacts": [
+        {
+          "type": "website",
+          "label": "Repository",
+          "value": "github.com/example/slides"
+        },
+        {
+          "type": "email",
+          "label": "Contact",
+          "value": "hello@slides.dev"
+        },
+        {
+          "type": "social",
+          "label": "Community",
+          "value": "@slides on Twitter"
+        }
+      ]
+    },
+    {
+      "type": "closing",
+      "message": "Thank You!",
+      "subtitle": "Built with React, TypeScript, and Tailwind CSS",
+      "author": "The Slides Team"
+    }
+  ]
+}

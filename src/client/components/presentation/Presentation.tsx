@@ -1,6 +1,6 @@
 /**
  * Presentation - Main container for slide presentation
- * Handles layout, animation, and slide rendering
+ * Military-tech aesthetic: dark olive with lime accents
  */
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -31,10 +31,24 @@ export function Presentation({
   if (presentation.slides.length === 0) {
     return (
       <div className="flex items-center justify-center w-full h-full">
-        <p className="text-lg opacity-50">No slides in presentation</p>
+        {/* Empty state with dot pattern */}
+        <div className="text-center">
+          <div
+            className="w-64 h-40 mx-auto mb-6 rounded-slide bg-dot-pattern opacity-30"
+            style={{ backgroundSize: "20px 20px" }}
+          />
+          <p className="text-body text-sand-500">No slides in presentation</p>
+        </div>
       </div>
     );
   }
+
+  // Centered slides: title, title-subtitle, closing, timeline
+  const isCenteredSlide =
+    currentSlide?.type === "title" ||
+    currentSlide?.type === "title-subtitle" ||
+    currentSlide?.type === "closing" ||
+    currentSlide?.type === "timeline";
 
   return (
     <NavigationControls state={state} onForward={forward} onBackward={backward}>
@@ -48,7 +62,11 @@ export function Presentation({
               animate="animate"
               exit="exit"
               transition={defaultTransition}
-              className="w-full h-full flex items-center justify-center p-8"
+              className={`w-full h-full flex p-slide pt-20 pb-24 ${
+                isCenteredSlide
+                  ? "items-center justify-center"
+                  : "items-start justify-start"
+              }`}
             >
               <SlideRenderer slide={currentSlide} currentStep={state.currentStep} />
             </motion.div>

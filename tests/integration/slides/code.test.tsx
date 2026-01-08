@@ -78,7 +78,10 @@ describe("CodeSlide", () => {
 
     render(<CodeSlide slide={slide} currentStep={1} />);
 
-    expect(screen.getByText("Version 2 of 3")).toBeDefined();
+    // Step indicator shows "2 / 3" format
+    expect(screen.getByText("2")).toBeDefined();
+    expect(screen.getByText("/")).toBeDefined();
+    expect(screen.getByText("3")).toBeDefined();
   });
 
   it("does not render step indicator for single block", () => {

@@ -1,71 +1,84 @@
 /**
- * CodeSlide - Code blocks with syntax highlighting and morphing
- * Uses CodeHike for syntax highlighting
+ * CodeSlide - Code blocks with syntax highlighting and token morphing
+ * Uses CodeHike for professional syntax highlighting with smooth token animations
  */
 
-import { motion, AnimatePresence } from "framer-motion";
+import { Pre } from "codehike/code";
 import type { CodeSlide as CodeSlideType } from "../../../shared/types/presentation.ts";
-import { codeVariants, codeTransition } from "./variants.ts";
+import { useHighlightAll } from "../../hooks/useHighlight.ts";
+import { tokenTransitions } from "./SmoothPre.tsx";
 
 export interface CodeSlideProps {
   slide: CodeSlideType;
   currentStep: number;
 }
 
+/**
+ * CodeSlide with CodeHike syntax highlighting and token morphing
+ */
 export function CodeSlide({
   slide,
   currentStep,
 }: CodeSlideProps): React.ReactElement {
+  const { highlights, isLoading } = useHighlightAll(
+    slide.blocks,
+    slide.language
+  );
+
   // Handle empty blocks
   if (slide.blocks.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-start">
         {slide.title && (
-          <h1 className="text-3xl font-bold mb-6">{slide.title}</h1>
+          <h1 className="text-h1 font-bold mb-6 text-sand-100">{slide.title}</h1>
         )}
-        <p className="opacity-50">No code blocks</p>
+        <div
+          className="w-64 h-40 rounded-slide bg-dot-pattern opacity-30"
+          style={{ backgroundSize: "16px 16px" }}
+        />
+        <p className="text-sand-500 mt-4">No code blocks</p>
       </div>
     );
   }
 
-  const currentCode = slide.blocks[currentStep] || slide.blocks[0];
+  const safeStep = Math.min(currentStep, slide.blocks.length - 1);
+  const currentHighlight = highlights[safeStep];
 
   return (
     <div className="flex flex-col items-start max-w-4xl w-full">
       {slide.title && (
-        <h1 className="text-3xl font-bold mb-6">{slide.title}</h1>
+        <h1 className="text-h1 font-bold mb-8 text-sand-100">{slide.title}</h1>
       )}
 
-      <div className="w-full rounded-lg overflow-hidden bg-gray-900">
-        {/* Language indicator */}
-        <div className="px-4 py-2 bg-gray-800 text-gray-400 text-sm font-mono">
-          {slide.language}
-        </div>
-
-        {/* Code block with morphing animation */}
-        <AnimatePresence mode="wait">
-          <motion.pre
-            key={currentStep}
-            variants={codeVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={codeTransition}
-            className="p-4 overflow-x-auto"
-          >
-            <code className="text-sm font-mono text-gray-100 whitespace-pre">
-              {currentCode}
-            </code>
-          </motion.pre>
-        </AnimatePresence>
+      {/* Code block - minimal, no wrapper */}
+      <div className="w-full overflow-x-auto">
+        {isLoading || !currentHighlight ? (
+          <CodeSkeleton code={slide.blocks[safeStep] ?? ""} />
+        ) : (
+          <Pre
+            code={currentHighlight}
+            handlers={[tokenTransitions]}
+            className="text-caption font-mono whitespace-pre leading-relaxed bg-transparent! p-0! m-0!"
+            style={{
+              ...currentHighlight.style,
+              background: "transparent",
+            }}
+          />
+        )}
       </div>
-
-      {/* Step indicator */}
-      {slide.blocks.length > 1 && (
-        <div className="mt-4 text-sm opacity-50">
-          Version {currentStep + 1} of {slide.blocks.length}
-        </div>
-      )}
     </div>
+  );
+}
+
+/**
+ * Loading skeleton that shows unhighlighted code
+ */
+function CodeSkeleton({ code }: { code: string }): React.ReactElement {
+  return (
+    <pre className="animate-pulse">
+      <code className="text-caption font-mono whitespace-pre leading-relaxed text-sand-400">
+        {code}
+      </code>
+    </pre>
   );
 }

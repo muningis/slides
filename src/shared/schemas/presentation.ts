@@ -53,6 +53,51 @@ export const TimelineSlideSchema = v.object({
   events: v.array(TimelineEventSchema),
 });
 
+/** Schema for info item */
+export const InfoItemSchema = v.object({
+  label: v.string(),
+  value: v.optional(v.string()),
+  description: v.optional(v.string()),
+});
+
+/** Schema for infographic slide */
+export const InfoSlideSchema = v.object({
+  type: v.literal("info"),
+  title: v.optional(v.string()),
+  items: v.array(InfoItemSchema),
+});
+
+/** Schema for closing slide */
+export const ClosingSlideSchema = v.object({
+  type: v.literal("closing"),
+  message: v.string(),
+  subtitle: v.optional(v.string()),
+  author: v.optional(v.string()),
+});
+
+/** Schema for contact item */
+export const ContactItemSchema = v.object({
+  type: v.union([
+    v.literal("email"),
+    v.literal("website"),
+    v.literal("social"),
+    v.literal("phone"),
+    v.literal("location"),
+    v.literal("other"),
+  ]),
+  value: v.string(),
+  label: v.optional(v.string()),
+});
+
+/** Schema for contact slide */
+export const ContactSlideSchema = v.object({
+  type: v.literal("contact"),
+  title: v.optional(v.string()),
+  name: v.optional(v.string()),
+  role: v.optional(v.string()),
+  contacts: v.array(ContactItemSchema),
+});
+
 /** Union schema for all slide types using discriminated union */
 export const SlideSchema = v.variant("type", [
   TitleSlideSchema,
@@ -61,6 +106,9 @@ export const SlideSchema = v.variant("type", [
   BulletsSlideSchema,
   CodeSlideSchema,
   TimelineSlideSchema,
+  InfoSlideSchema,
+  ClosingSlideSchema,
+  ContactSlideSchema,
 ]);
 
 /** Schema for complete presentation */
