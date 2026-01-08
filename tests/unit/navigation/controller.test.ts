@@ -61,18 +61,32 @@ describe("NavigationController", () => {
       expect(state.currentSlide).toBe(1);
     });
 
-    it("moves to previous slide from multi-step slide mid-way", () => {
+    it("moves back one step at a time on multi-step slide", () => {
       const controller = new NavigationController(multiStepSlides);
-      controller.forward(); // Move to bullets slide
-      controller.forward(); // Reveal step 2
-      controller.forward(); // Reveal step 3
+      controller.forward(); // Move to bullets slide (step 0)
+      controller.forward(); // Reveal step 2 (step 1)
+      controller.forward(); // Reveal step 3 (step 2)
 
       controller.backward();
-      const state = controller.getState();
+      const state1 = controller.getState();
 
-      // Should go back to previous slide, not previous step
-      expect(state.currentSlide).toBe(0);
-      expect(state.currentStep).toBe(0);
+      // Should go back to previous step first
+      expect(state1.currentSlide).toBe(1);
+      expect(state1.currentStep).toBe(1);
+
+      controller.backward();
+      const state2 = controller.getState();
+
+      // Continue stepping back
+      expect(state2.currentSlide).toBe(1);
+      expect(state2.currentStep).toBe(0);
+
+      controller.backward();
+      const state3 = controller.getState();
+
+      // Now go to previous slide
+      expect(state3.currentSlide).toBe(0);
+      expect(state3.currentStep).toBe(0);
     });
   });
 

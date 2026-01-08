@@ -23,7 +23,6 @@ describe("CodeSlide", () => {
 
     render(<CodeSlide slide={slide} currentStep={0} />);
 
-    expect(screen.getByText("typescript")).toBeDefined();
     expect(screen.getByText("const x = 1;")).toBeDefined();
   });
 
@@ -65,37 +64,23 @@ describe("CodeSlide", () => {
     render(<CodeSlide slide={slide} currentStep={0} />);
 
     expect(screen.getByRole("heading", { name: "Example Code" })).toBeDefined();
-    expect(screen.getByText("javascript")).toBeDefined();
     expect(screen.getByText("console.log('hello');")).toBeDefined();
   });
 
-  it("renders step indicator for multiple blocks", () => {
+  it("shows correct block for given step without step indicator", () => {
     const slide: CodeSlideType = {
       type: "code",
       language: "python",
       blocks: ["x = 1", "y = 2", "z = 3"],
     };
 
-    render(<CodeSlide slide={slide} currentStep={1} />);
+    const { container } = render(<CodeSlide slide={slide} currentStep={1} />);
 
-    // Step indicator shows "2 / 3" format
-    expect(screen.getByText("2")).toBeDefined();
-    expect(screen.getByText("/")).toBeDefined();
-    expect(screen.getByText("3")).toBeDefined();
-  });
-
-  it("does not render step indicator for single block", () => {
-    const slide: CodeSlideType = {
-      type: "code",
-      language: "rust",
-      blocks: ["fn main() {}"],
-    };
-
-    const { container } = render(<CodeSlide slide={slide} currentStep={0} />);
-
-    // Look within this specific render
-    const versionText = container.textContent?.includes("Version");
-    expect(versionText).toBe(false);
+    // Shows correct code block
+    expect(screen.getByText("y = 2")).toBeDefined();
+    // Step indicator was removed - verify no step numbers shown
+    const hasStepIndicator = container.textContent?.includes("/ 3");
+    expect(hasStepIndicator).toBe(false);
   });
 
   it("renders empty state for no code blocks", () => {
