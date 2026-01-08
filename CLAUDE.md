@@ -142,6 +142,17 @@ bun run build      # Production build
 bun run dev        # Development server
 ```
 
+## Development Workflow
+
+### Test-First Approach
+
+When implementing changes that affect behavior:
+
+1. **Update tests first** to reflect the new expected behavior
+2. **Then implement the changes** to make tests pass
+
+This ensures tests accurately document intent and catches breaking changes early.
+
 ## Technologies
 
 - **Runtime**: Bun
