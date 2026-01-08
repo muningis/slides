@@ -1,0 +1,69 @@
+{
+  "slides": [
+    {
+      "type": "title",
+      "title": "Introduction to Presentations"
+    },
+    {
+      "type": "title-subtitle",
+      "title": "Welcome",
+      "subtitle": "A demo of the slide renderer capabilities"
+    },
+    {
+      "type": "text",
+      "title": "About This Demo",
+      "text": "This sample presentation demonstrates all available slide types including titles, text content, bullet points, code blocks with morphing animations, and vertical timelines."
+    },
+    {
+      "type": "bullets",
+      "title": "Key Features",
+      "items": [
+        "Step-by-step bullet reveal",
+        "Keyboard navigation (arrows, space, enter)",
+        "Smooth animations with Framer Motion",
+        "JSON-based configuration",
+        "Validated with Valibot schemas"
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Code Evolution",
+      "language": "typescript",
+      "blocks": [
+        "function greet() {\n  console.log('Hello');\n}",
+        "function greet(name: string) {\n  console.log(`Hello, ${name}!`);\n}",
+        "function greet(name: string, greeting = 'Hello') {\n  console.log(`${greeting}, ${name}!`);\n}"
+      ]
+    },
+    {
+      "type": "timeline",
+      "title": "Project Timeline",
+      "events": [
+        {
+          "title": "Project Kickoff",
+          "date": "Week 1",
+          "description": "Initial planning and architecture design"
+        },
+        {
+          "title": "Core Implementation",
+          "date": "Week 2",
+          "description": "Navigation controller and slide components"
+        },
+        {
+          "title": "Testing & Polish",
+          "date": "Week 3",
+          "description": "Integration tests and refinements"
+        },
+        {
+          "title": "Release",
+          "date": "Week 4",
+          "description": "Production deployment"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "title": "Thank You!"
+    }
+  ]
+}

@@ -81,4 +81,16 @@ describe("Static File Serving", () => {
     // Should be blocked
     expect([403, 404]).toContain(response.status);
   });
+
+  it("serves JSON files from public directory", async () => {
+    const response = await fetchFromServer("/presentations/sample.json");
+
+    expect(response.status).toBe(200);
+    const contentType = response.headers.get("content-type");
+    expect(contentType).toContain("json");
+
+    const data = (await response.json()) as { slides?: unknown[] };
+    expect(data.slides).toBeDefined();
+    expect(Array.isArray(data.slides)).toBe(true);
+  });
 });
