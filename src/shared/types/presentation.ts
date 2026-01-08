@@ -57,6 +57,44 @@ export interface TimelineSlide extends BaseSlide {
   events: TimelineEvent[];
 }
 
+/** Info item for infographic slides */
+export interface InfoItem {
+  label: string;
+  value?: string | undefined;
+  description?: string | undefined;
+}
+
+/** Infographic-style slide with data/statistics */
+export interface InfoSlide extends BaseSlide {
+  type: "info";
+  title?: string | undefined;
+  items: InfoItem[];
+}
+
+/** Closing/thank you slide */
+export interface ClosingSlide extends BaseSlide {
+  type: "closing";
+  message: string;
+  subtitle?: string | undefined;
+  author?: string | undefined;
+}
+
+/** Contact item for contact slides */
+export interface ContactItem {
+  type: "email" | "website" | "social" | "phone" | "location" | "other";
+  value: string;
+  label?: string | undefined;
+}
+
+/** Contact information slide */
+export interface ContactSlide extends BaseSlide {
+  type: "contact";
+  title?: string | undefined;
+  name?: string | undefined;
+  role?: string | undefined;
+  contacts: ContactItem[];
+}
+
 /** Union of all slide types */
 export type Slide =
   | TitleSlide
@@ -64,7 +102,10 @@ export type Slide =
   | TextSlide
   | BulletsSlide
   | CodeSlide
-  | TimelineSlide;
+  | TimelineSlide
+  | InfoSlide
+  | ClosingSlide
+  | ContactSlide;
 
 /** Presentation configuration */
 export interface Presentation {
@@ -80,6 +121,7 @@ export function getSlideStepCount(slide: Slide): number {
     case "title":
     case "title-subtitle":
     case "text":
+    case "closing":
       return 1;
     case "bullets":
       return slide.items.length;
@@ -87,5 +129,9 @@ export function getSlideStepCount(slide: Slide): number {
       return slide.blocks.length;
     case "timeline":
       return slide.events.length;
+    case "info":
+      return slide.items.length;
+    case "contact":
+      return 1;
   }
 }

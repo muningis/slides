@@ -1,10 +1,11 @@
 /**
  * NavigationControls - Keyboard and click navigation for presentations
- * Handles arrow keys, space, and provides visual navigation hints
+ * Military-tech aesthetic: clean, minimal indicators with lime accents
  */
 
 import { useEffect, useCallback, useRef } from "react";
 import type { NavigationState } from "../../../shared/types/navigation.ts";
+import { HighContrastToggleCompact } from "../theme/HighContrastToggle.tsx";
 
 /** Debounce delay in milliseconds for rapid navigation */
 const NAVIGATION_DEBOUNCE_MS = 100;
@@ -33,17 +34,14 @@ export function NavigationControls({
   const lastNavigationRef = useRef<number>(0);
 
   // Debounced navigation helper
-  const navigate = useCallback(
-    (action: () => void): void => {
-      const now = Date.now();
-      if (now - lastNavigationRef.current < NAVIGATION_DEBOUNCE_MS) {
-        return;
-      }
-      lastNavigationRef.current = now;
-      action();
-    },
-    []
-  );
+  const navigate = useCallback((action: () => void): void => {
+    const now = Date.now();
+    if (now - lastNavigationRef.current < NAVIGATION_DEBOUNCE_MS) {
+      return;
+    }
+    lastNavigationRef.current = now;
+    action();
+  }, []);
 
   // Handle keyboard navigation
   const handleKeyDown = useCallback(
@@ -66,9 +64,9 @@ export function NavigationControls({
   );
 
   // Attach keyboard listeners
-  useEffect(() => {
+  useEffect((): (() => void) => {
     window.addEventListener("keydown", handleKeyDown);
-    return () => {
+    return (): void => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleKeyDown]);
@@ -87,26 +85,29 @@ export function NavigationControls({
     >
       {children}
 
-      {/* Navigation indicator */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm opacity-50">
-        {state.totalSlides > 0 && (
-          <span>
-            {state.currentSlide + 1} / {state.totalSlides}
-            {state.totalSteps > 1 && (
-              <span className="ml-2">
-                (step {state.currentStep + 1}/{state.totalSteps})
-              </span>
-            )}
-          </span>
-        )}
+      {/* Bottom navigation bar */}
+      <div className="absolute bottom-0 left-0 right-0 px-6 py-4 flex items-center justify-between pointer-events-none">
+        {/* Left: Slide number only */}
+        <div className="text-caption text-sand-500 font-mono">
+          {state.currentSlide + 1}
+        </div>
+
+        {/* Right: High contrast toggle */}
+        <div className="pointer-events-auto">
+          <HighContrastToggleCompact />
+        </div>
       </div>
 
-      {/* Visual hints for navigation boundaries */}
+      {/* Boundary indicators */}
       {state.isAtStart && (
-        <div className="absolute top-4 left-4 text-xs opacity-30">Start</div>
+        <div className="absolute top-4 left-4 px-2 py-1 rounded bg-olive-800/50 text-caption text-sand-500">
+          Start
+        </div>
       )}
       {state.isAtEnd && (
-        <div className="absolute top-4 right-4 text-xs opacity-30">End</div>
+        <div className="absolute top-4 right-4 px-2 py-1 rounded bg-olive-800/50 text-caption text-lime-600">
+          End
+        </div>
       )}
     </div>
   );

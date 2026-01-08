@@ -9,6 +9,9 @@ import { TextSlide } from "./TextSlide.tsx";
 import { BulletsSlide } from "./BulletsSlide.tsx";
 import { CodeSlide } from "./CodeSlide.tsx";
 import { TimelineSlide } from "./TimelineSlide.tsx";
+import { InfoSlide } from "./InfoSlide.tsx";
+import { ClosingSlide } from "./ClosingSlide.tsx";
+import { ContactSlide } from "./ContactSlide.tsx";
 
 export interface SlideRendererProps {
   /** Slide data */
@@ -37,6 +40,12 @@ export function SlideRenderer({
       return <CodeSlide slide={slide} currentStep={currentStep} />;
     case "timeline":
       return <TimelineSlide slide={slide} currentStep={currentStep} />;
+    case "info":
+      return <InfoSlide slide={slide} currentStep={currentStep} />;
+    case "closing":
+      return <ClosingSlide slide={slide} />;
+    case "contact":
+      return <ContactSlide slide={slide} />;
     default:
       // TypeScript exhaustive check - unreachable if all slide types are handled
       throw new Error(

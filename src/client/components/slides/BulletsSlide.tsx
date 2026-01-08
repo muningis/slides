@@ -1,5 +1,6 @@
 /**
  * BulletsSlide - Bullet points with step-by-step reveal
+ * Military-tech aesthetic: lime accent bullets, clean typography
  */
 
 import { motion } from "framer-motion";
@@ -18,11 +19,16 @@ export function BulletsSlide({
   // Handle empty bullet list
   if (slide.items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-start">
         {slide.title && (
-          <h1 className="text-3xl font-bold mb-6">{slide.title}</h1>
+          <h1 className="text-h1 font-bold mb-6 text-sand-100">{slide.title}</h1>
         )}
-        <p className="opacity-50">No items</p>
+        {/* Empty state with dot pattern */}
+        <div
+          className="w-48 h-32 rounded-slide bg-dot-pattern opacity-30"
+          style={{ backgroundSize: "16px 16px" }}
+        />
+        <p className="text-sand-500 mt-4">No items</p>
       </div>
     );
   }
@@ -30,9 +36,10 @@ export function BulletsSlide({
   return (
     <div className="flex flex-col items-start max-w-3xl w-full">
       {slide.title && (
-        <h1 className="text-3xl font-bold mb-8">{slide.title}</h1>
+        <h1 className="text-h1 font-bold mb-10 text-sand-100">{slide.title}</h1>
       )}
-      <ul className="space-y-4 w-full">
+
+      <ul className="space-y-6 w-full">
         {slide.items.map((item, index) => (
           <motion.li
             key={index}
@@ -40,10 +47,11 @@ export function BulletsSlide({
             initial="hidden"
             animate={index <= currentStep ? "visible" : "hidden"}
             transition={stepTransition}
-            className="flex items-start gap-3 text-xl"
+            className="flex items-start gap-4 text-body"
           >
-            <span className="text-2xl">•</span>
-            <span>{item}</span>
+            {/* Lime accent bullet */}
+            <span className="flex-shrink-0 w-2 h-2 mt-3 rounded-full bg-lime-500 shadow-lime-glow-sm" />
+            <span className="text-sand-200">{item}</span>
           </motion.li>
         ))}
       </ul>

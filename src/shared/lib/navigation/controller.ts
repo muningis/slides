@@ -96,22 +96,32 @@ export class NavigationController {
   }
 
   /**
-   * Navigate backward - always moves to previous slide (not step-by-step)
+   * Navigate backward - step-by-step within slide, then to last step of previous slide
    */
   backward(): void {
     if (this.state.isAtStart) {
       return;
     }
 
-    // Always go to previous slide
+    // If we have more steps to go back within current slide
+    if (this.state.currentStep > 0) {
+      this.updateState({
+        currentStep: this.state.currentStep - 1,
+      });
+      this.notify();
+      return;
+    }
+
+    // Go to previous slide, landing on its last step
     const prevSlideIndex = this.state.currentSlide - 1;
 
     const prevSlide = this.slides[prevSlideIndex];
     if (prevSlideIndex >= 0 && prevSlide !== undefined) {
+      const prevTotalSteps = getSlideStepCount(prevSlide);
       this.updateState({
         currentSlide: prevSlideIndex,
-        currentStep: 0,
-        totalSteps: getSlideStepCount(prevSlide),
+        currentStep: prevTotalSteps - 1, // Land on last step
+        totalSteps: prevTotalSteps,
       });
 
       this.notify();

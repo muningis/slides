@@ -142,6 +142,17 @@ bun run build      # Production build
 bun run dev        # Development server
 ```
 
+## Development Workflow
+
+### Test-First Approach
+
+When implementing changes that affect behavior:
+
+1. **Update tests first** to reflect the new expected behavior
+2. **Then implement the changes** to make tests pass
+
+This ensures tests accurately document intent and catches breaking changes early.
+
 ## Technologies
 
 - **Runtime**: Bun
@@ -181,6 +192,8 @@ tests/
 - File system (static files from `dist/` directory) (004-server-handler)
 - TypeScript (strict mode) + React, Framer Motion, CodeHike, Valibo (005-slide-renderer)
 - JSON configuration files (loaded at runtime) (005-slide-renderer)
+- TypeScript (strict mode) with Bun runtime + React 19, Framer Motion, Tailwind CSS, Valibo (006-slide-theme)
+- N/A (theme configuration in code) (006-slide-theme)
 
 ## Recent Changes
 - 004-server-handler: Added TypeScript (strict mode) + Bun runtime (native `Bun.serve()` API - no external HTTP framework needed)
